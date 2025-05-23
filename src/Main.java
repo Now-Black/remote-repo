@@ -1,5 +1,6 @@
 import com.sun.security.auth.UnixNumericUserPrincipal;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
@@ -314,7 +315,94 @@ public class Main {
         return new ArrayList<>(map.values());
     }
     public int longestConsecutive(int[] nums) {
-
+        Set<Integer> set = new HashSet<>();
+        int length = 0;
+        for(int num : nums)set.add(num);
+        for(int cur : set){
+            if (set.contains(cur-1)){
+                continue;
+            }
+            int no = cur+1;
+            while (set.contains(no)){no++;}
+            length = Math.max(length,no-cur);
+        }
+        return length;
+    }
+    public void moveZeroes(int[] nums) {
+        for(int i = 0;i<nums.length;i++){
+            if(nums[i]==0) {
+                int idx = i;
+                while (nums[idx]==0){
+                    idx++;
+                }
+                nums[i] = nums[idx];
+                nums[idx] = 0;
+            }
+        }
+    }
+    public int max2Area(int[] height) {
+        int r = height.length-1;
+        int l = 0;
+        int ans = 0;
+        while (l < r){
+            if(height[l] > height[r]){
+                ans = Math.max(ans , height[r] * (r-l));
+                r--;
+            }else {
+                ans = Math.max(ans , height[l] * (r-l));
+                l++;
+            }
+        }
+        return ans;
+    }
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i = 0; i<nums.length;i++){
+            int l = i+1;
+            int r = nums.length-1;
+            int cur = nums[i];
+            while (l<r){
+                List<Integer> list = new ArrayList<>();
+                if(nums[l] + nums[r] +cur == 0){
+                    list.add(l);
+                    list.add(r);
+                    list.add(i);
+                    ans.add(list);
+                    l++;
+                    r--;
+                }else if(nums[l] + nums[r] < -cur){l++;}
+                else if(nums[l] + nums[r] > -cur){r--;}
+            }
+        }
+        return ans;
+    }
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character,Integer> map = new HashMap<>();
+        int l = 0;
+        int ans = 0;
+        for(int i = 0 ; i< s.length();i++){
+            map.merge(s.charAt(i),1,Integer::sum);
+            while (map.get(s.charAt(l))>1){
+                map.merge(s.charAt(l),-1,Integer::sum);
+                l++;
+            }
+            ans = Math.max(ans,i-l+1);
+        }
+        return ans;
+    }
+    public List<Integer> findAnagrams(String s, String p) {
+        char[] pc = p.toCharArray();
+        Arrays.sort(pc);
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0; i < s.length()-p.length();i++){
+            char[] temp = s.substring(i,i+p.length()).toCharArray();
+            Arrays.sort(temp);
+            if(Arrays.equals(temp, pc)){
+                ans.add(i);
+            }
+        }
+        return ans;
     }
 
 }
