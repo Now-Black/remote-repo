@@ -299,19 +299,22 @@ public class Main {
         return null;
     }
     public List<List<String>> groupAnagrams(String[] strs) {
-        List<List<String>> ans = new ArrayList<>();
-        Set<char[]> set = new HashSet<>();
-        for(String cur : strs){
-            List<String> list = new ArrayList<>();
-            char[] temp = cur.toCharArray();
-            Arrays.sort(temp);
-            if(set.contains(temp)){
-                list.add(cur);
-            }else {
-                set.add(temp) ;
+        Map<String, List<String>> map = new HashMap<>();
+        for (String cur : strs) {
+            char[] no = cur.toCharArray();
+            Arrays.sort(no);
+            if (map.containsKey(new String(no))) {
+                map.get(new String(no)).add(cur);
+            } else {
+                map.put(new String(no), new ArrayList<>() {{
+                    add(cur);
+                }});
             }
-
         }
+        return new ArrayList<>(map.values());
+    }
+    public int longestConsecutive(int[] nums) {
+
     }
 
 }
