@@ -171,7 +171,7 @@ public class Main {
         if(fix!=0)cur.next = new ListNode(fix);
         return dummy.next;
     }
-    public int subarraySum(int[] nums, int k) {
+    public int subar12raySum(int[] nums, int k) {
         int[] sum  = new int[nums.length];
         int suma = 0;
         int ans = 0;
@@ -355,7 +355,7 @@ public class Main {
         }
         return ans;
     }
-    public List<List<Integer>> threeSum(int[] nums) {
+    public List<List<Integer>> thr12eeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
         for(int i = 0; i<nums.length;i++){
@@ -391,7 +391,7 @@ public class Main {
         }
         return ans;
     }
-    public List<Integer> findAnagrams(String s, String p) {
+    public List<Integer> findA12nagrams(String s, String p) {
         char[] pc = p.toCharArray();
         Arrays.sort(pc);
         List<Integer> ans = new ArrayList<>();
@@ -474,6 +474,92 @@ public class Main {
         return ans;
     }
     public int lengthOfLongestSubstring(String s) {
+        HashMap<Character,Integer> map = new HashMap<>();
+        int left = 0;
+        int ans  = 0;
+        for(int i = 0; i < s.length();i++){
+            map.merge(s.charAt(i),1,Integer::sum);
+            while (map.get(s.charAt(i))>1){
+                map.merge(s.charAt(left),-1,Integer::sum);
+                left++;
+            }
+            ans = Math.max(ans,i-left);
+        }
+        return ans;
+    }
+    public List<Integer> findAnagrams(String s, String p) {
+        int[] tar = new int[26];
+        int[] now = new int[26];
+        List<Integer> ans = new ArrayList<>();
+        for(char cur : p.toCharArray())tar[cur-'a']++;
+        for(int i = 0;i<s.length();i++){
+            now[s.charAt(i)-'a']++;
+            if(i<p.length()-1){
+                continue;
+            }
+            if(Arrays.equals(now,tar)){
+                ans.add(i-p.length()+1);
+            }
+            now[s.charAt(i-p.length()+1-'a')]--;
+        }
+        return ans;
+    }
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i = 0; i<nums.length;i++){
+            int r=nums.length-1;
+            int l =i+1;
+            if(i>0 && nums[i]==nums[i-1])continue;
+            while (l<r){
+                if(nums[i]+nums[r]+nums[l]<0){
+                    l++;
+                }
+                else if(nums[i]+nums[r]+nums[l]>0){
+                    r--;
+                }
+                else if(nums[i]+nums[r]+nums[l]==0){
+                    int now = nums[i];
+                    int ri = nums[r];
+                    int le = nums[l];
+                    ans.add(new ArrayList<>(){{add(now);add(ri);add(le);}});
+                    r--;
+                    l++;
+                    while (nums[r]==nums[r--])r--;
+                    while (nums[l]==nums[l++])l++;
+                }
+            }
+        }
+        return ans;
+
+
+    }
+    public int subarraySum(int[] nums, int k) {
+        int[] pix = new int[nums.length+1];
+        Map<Integer,Integer> map = new HashMap<>();
+        int ans = 0;
+        for(int i = 0; i<=nums.length;i++){
+            pix[i+1] = pix[i] + nums[i];
+        }
+        for(int i = 0 ; i < pix.length;i++){
+            ans += map.getOrDefault(pix[i]-k,0);
+            map.merge(pix[i],1,Integer::sum);
+        }
+        return ans;
+    }
+    public int maxSubArray(int[] nums) {
+        int ans = Integer.MIN_VALUE;
+        int sum = 0;
+        for(int i = 0; i < nums.length ; i++){
+            ans = Math.max(ans,sum);
+            sum += nums[i];
+            if(sum<0){
+                sum = 0;
+            }
+        }
+        return ans;
+    }
+    public int[][] merge(int[][] intervals) {
 
     }
 }
