@@ -224,7 +224,7 @@ public class Main {
         }
         return null;
     }
-    public int maxArea(int[] height) {
+    public int max12Area(int[] height) {
         int l = 0;
         int r = height.length-1;
         int ans = Math.min(height[l],height[r]) * r-l;
@@ -288,7 +288,7 @@ public class Main {
         PriorityQueue<Integer> que = new PriorityQueue<>();
         return pre;
     }
-    public int[] twoSum(int[] nums, int target) {
+    public int[] two12Sum(int[] nums, int target) {
         Map<Integer,Integer> map = new HashMap<>();
         for(int i = 0 ; i < nums.length;i++){
             if(map.containsKey(target-nums[i])){
@@ -299,7 +299,7 @@ public class Main {
         }
         return null;
     }
-    public List<List<String>> groupAnagrams(String[] strs) {
+    public List<List<String>> group12Anagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
         for (String cur : strs) {
             char[] no = cur.toCharArray();
@@ -314,7 +314,7 @@ public class Main {
         }
         return new ArrayList<>(map.values());
     }
-    public int longestConsecutive(int[] nums) {
+    public int longestCo1nsecutive(int[] nums) {
         Set<Integer> set = new HashSet<>();
         int length = 0;
         for(int num : nums)set.add(num);
@@ -328,7 +328,7 @@ public class Main {
         }
         return length;
     }
-    public void moveZeroes(int[] nums) {
+    public void move1Zeroes(int[] nums) {
         for(int i = 0;i<nums.length;i++){
             if(nums[i]==0) {
                 int idx = i;
@@ -377,7 +377,7 @@ public class Main {
         }
         return ans;
     }
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLonges12tSubstring(String s) {
         Map<Character,Integer> map = new HashMap<>();
         int l = 0;
         int ans = 0;
@@ -402,7 +402,78 @@ public class Main {
                 ans.add(i);
             }
         }
+        
         return ans;
     }
+    public void moveZeroes(int[] nums) {
+        int b = 0;
+        for (int i = 0 ; i <  nums.length;i++){
+            if(nums[i] != 0){
+                nums[b] = nums[i];
+                nums[i] = 0;
+                b++;
+            }
+        }
+    }
+    public int longestConsecutive(int[] nums) {
+        int ans = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int cur : nums)set.add(cur);
+        for (int num : nums) {
+            if (set.contains(num - 1)) continue;
+            int temp = 0;
+            int no = num + 1;
+            while (set.contains(no)) {
+                temp++;
+                no = no + 1;
+            }
+            ans = Math.max(no, ans);
+        }
+        return ans;
+    }
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String,List<String>> map = new HashMap<>();
+        for(String cur : strs){
+            char[] c = cur.toCharArray();
+            Arrays.sort(c);
+            if(!map.containsKey(Arrays.toString(c))){
+                List<String> list = new ArrayList<>();
+                list.add(cur);
+                map.put(Arrays.toString(c),list);
+            }else {
+                map.get(Arrays.toString(c)).add(cur);
+            }
+        }
+        List<List<String>> ans = new ArrayList<>(map.values());
+        return ans;
+    }
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> set = new HashMap();
+        for(int i = 0;i < nums.length;i++){
+            if(! set.containsKey(target-nums[i])){
+                set.put(nums[i],i);
+            }else{
+                return new int[]{i,set.get(target-nums[i])};
+            }
+        }
+        return null;
+    }
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length-1;
+        int ans = 0;
+        while (left < right){
+            if(height[left] < height[right]){
+                ans = Math.max(ans,(right-left) * height[left]);
+                left ++;
+            }else {
+                ans = Math.max(ans, (right - left) * height[right]);
+                right--;
+            }
+        }
+        return ans;
+    }
+    public int lengthOfLongestSubstring(String s) {
 
+    }
 }
