@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        countLargestGroup(46);
     }
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0,head);
@@ -236,7 +236,7 @@ public class Main {
         }
         return ans;
     }
-    public int[][] merge(int[][] intervals) {
+    public int[][] mer12ge(int[][] intervals) {
         Arrays.sort(intervals,(p,q)->p[0]-q[0]);
         List<int[]> ans = new ArrayList<>();
         for(int[] cur : intervals){
@@ -560,6 +560,157 @@ public class Main {
         return ans;
     }
     public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals);
+        List<int[]> ans = new ArrayList<>();
+        for(int i = 0 ; i < intervals.length-1;i++){
+            if(intervals[i][1]>intervals[i+1][1]){
+                intervals[i+1][0] = intervals[i][0];
+            }else if(intervals[i][1]>intervals[i+1][0]){
+                intervals[i+1][0] = intervals[i][0];
+                intervals[i+1][1] = intervals[i][1];
+            }else {
+                ans.add(new int[]{intervals[i][0],intervals[i][1]});
+            }
+        }
+
+        return ans.toArray(new int[ans.size()][]);
 
     }
+    public List<Integer> findWordsContaining(String[] words, char x) {
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0 ; i < words.length;i++){
+            if(words[i].indexOf(x)!=-1){
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+    public String triangleType(int[] nums) {
+        int a = nums[0];
+        int b = nums[1];
+        int c = nums[2];
+        if(a+b<=c && a+c <=b && c+b<=a){return "none";}
+        if(a==b && b==c){return "equilateral";}
+        if(a==b || b==c || a==c)return "isosceles";
+        return "scalene";
+
+    }
+    public static int countLargestGroup(int n) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int num = 0;
+        int ans = 0;
+        for(int i = 1; i <= n ; i++){
+            int sum = ds(i);
+            map.merge(sum,1,Integer::sum);
+            if(map.get(sum) > num){
+                num = map.get(sum);
+                ans = 1;
+            }else {
+                ans++;
+            }
+        }
+        return ans;
+    }
+    public static int ds(int cur){
+        int no = 0;
+        while (cur>0){
+            no += cur%10;
+            cur /= 10;
+        }
+        return no;
+    }
+    public int countPairs(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        int ans = 0;
+        for(int s  = 0 ; s < nums.length;s++){
+            if(set.contains(nums[s]))continue;
+            for(int f = s+1 ; f<nums.length;f++){
+                if(set.contains(nums[f]))continue;
+                if(nums[f] == nums[s]){
+                    set.add(nums[f]);
+                    if((s*f)%k==0)ans++;
+                }
+            }
+        }
+        return ans;
+    }
+    public int minimizedStringLength(String s) {
+        Set<Character> set = new HashSet<>();
+        int ans = 0;
+        for(char c : s.toCharArray()){
+            if(!set.contains(c)){
+                set.add(c);
+                ans++;
+            }
+        }
+        return ans;
+    }
+    public int[] rowAndMaximumOnes(int[][] mat) {
+        int max = 0;
+        int idx = 0;
+        for(int i = 0 ; i < mat.length ; i++){
+            int now = 0;
+            for(int cur : mat[i]){
+                if(cur == 1){
+                    now++;
+                }
+            }
+            if(now > max){
+                idx = i;
+                max = now;
+            }
+        }
+        return new int[]{idx,max};
+    }
+    public char[] re_nums(char[] nums){
+        char[] ans = new char[nums.length];
+        for(int i = 0 ; i<nums.length;i++){
+            ans[nums.length-i-1] = nums[i];
+        }
+        return ans;
+    }
+    public String answerString(String word, int numFriends) {
+        word = word+"!";
+        String ans = word.substring(0,word.length()-numFriends+1);
+        int s = word.charAt(0) - 'a';
+        for(int i = 1 ; i <= word.length()-numFriends;i++){
+            if(word.charAt(i)-'a' > s){
+                ans = word.substring(i,i+word.length()- numFriends+1);
+                s = word.charAt(i)-'a';
+
+            }
+
+        }
+        return ans;
+    }
+    public String smallestEquivalentString(String s1, String s2, String baseStr) {
+        Map<Character,Character> map = new HashMap<>();
+        for(int i = 0 ; i < s1.length();i++){
+            char c1 = up(s1.charAt(i),map);
+            char c2 = up(s2.charAt(i),map);
+            if(c1>c2){
+                map.put(c1,c2);
+            }else if(c1<c2){
+                map.put(c2,c1);
+            }
+        }
+        char[] ans = new char[baseStr.length()];
+        for(int i = 0 ; i < baseStr.length();i++){
+            if(! map.containsKey(baseStr.charAt(i))){
+                ans[i] = baseStr.charAt(i);
+            }else {
+                ans[i] =up(baseStr.charAt(i),map) ;
+
+            }
+        }
+        return new String(ans);
+    }
+    public char up(char c , Map<Character,Character> map){
+        while (!map.containsKey(c)){
+            c = map.get(c);
+        }
+        return c;
+    }
+
+
 }
