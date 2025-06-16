@@ -12,8 +12,8 @@ public class ceshi {
 
     public void test1(){
 
-        Main.LRUCache now = new Main.LRUCache(1);
-        now.capacity = 4;
+//        Main.LRUCache now = new Main.LRUCache(1);
+//        now.capacity = 4;
     }
 
 }

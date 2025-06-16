@@ -1,11 +1,13 @@
 import com.sun.security.auth.UnixNumericUserPrincipal;
 
+
 import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        countLargestGroup(46);
+
+        robotWithString("bac");
     }
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0,head);
@@ -711,6 +713,486 @@ public class Main {
         }
         return c;
     }
+    public static String robot12WithString(String s) {
+        int idx_min = compare_char(0,s);
+        int r = idx_min+1;
+        int l = idx_min-1;
+        StringBuilder ans = new StringBuilder();
+        ans.append(s.charAt(idx_min));
+        Set<Integer> set = new HashSet<>();
+        set.add(idx_min);
+        while (r < s.length()){
+            idx_min = compare_char(r,s);
+            if(l>-1 && s.charAt(l) < s.charAt(idx_min)){
+                ans.append(s.charAt(l));
+                set.add(l);
+                l--;
+                continue;
+            }
+            ans.append(s.charAt(idx_min));
+            l =idx_min-1;
+            while (set.contains(l))l--;
+            r= idx_min+1;
+            set.add(idx_min);
+        }
+        for(int i = s.length()-1;i>=0;i--){
+            if(set.contains(i))continue;
+            ans.append(s.charAt(i));
+        }
+        return String.valueOf(ans);
+    }
+    public static int compare_char(int r ,String s){
+        int idx_min = r;
+        for(int i = r ; i < s.length() ; i++){
+            idx_min = s.charAt(idx_min) < s.charAt(i) ? idx_min : i;
+        }
+        return idx_min;
+    }
+    public static String robotWithString(String s) {
+        char[] sufmin = new char[s.length()+1];
+        sufmin[s.length()] = Character.MAX_VALUE;
+        for(int i = s.length()-1 ; i >=0 ;i--){
+            sufmin[i] = (char) Math.min(s.charAt(i),sufmin[i+1]);
+        }
+        List<Character> list = new ArrayList<>();
+        StringBuilder ans = new StringBuilder();
+        for(int i = 0 ; i < s.length();i++){
+            list.add(s.charAt(i));
+            while (!list.isEmpty() && list.getLast() <= sufmin[i]){
+                ans.append(list.removeLast());
+            }
+        }
+        return String.valueOf(ans);
+    }
+    public ListNode swap12Pairs(ListNode head) {
+        ListNode dummy = new ListNode(0,head);
+        if(head==null || head.next==null)return head;
+        ListNode pre = dummy;
+        ListNode s = head;
+        ListNode f = head.next;
+        while (f != null ){
+            ListNode cur = f.next;
 
+            pre.next = f;
+            s.next = f.next;
+            f.next = s;
+
+            pre = s;
+            s = cur;
+
+            f = cur!=null ? cur.next : null;
+        }
+        return dummy.next;
+
+
+    }
+    public ListNode sort12List(ListNode head) {
+        ListNode cur = head;
+        List<Integer> list = new ArrayList<>();
+        while (cur!=null){
+            list.add(cur.val);
+            cur = cur.next;
+        }
+        int[] nums = list.stream().mapToInt(Integer::intValue).toArray();
+        Arrays.sort(nums);
+        cur = head;
+        for (int num : nums) {
+            cur.val = num;
+            cur = cur.next;
+        }
+        return head;
+    }
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = new ListNode(0,head);
+        while (head != null){
+            ListNode cur = head.next;
+            head.next.next = head;
+            head.next = pre;
+            pre = head;
+            head = cur;
+        }
+        return head;
+    }
+    public ListNode removeNth12FromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0,head);
+        ListNode s = dummy;
+        ListNode f = dummy;
+        for(int i = 0 ; i <=n ; i ++){
+            f = f.next;
+        }
+        while (f!=null){
+            f = f.next;
+            s = s.next;
+        }
+        s.next = s.next.next;
+        return dummy.next;
+    }
+    public String clearStars(String s) {
+        char[] sufmin = new char[s.length()+1];
+        sufmin[0] = Character.MAX_VALUE;
+        for(int i = 1 ; i <s.length()+1 ; i++){
+            sufmin[i] = (char) Math.min(s.charAt(i),sufmin[i-1]);
+        }
+        StringBuilder ans = new StringBuilder(s);
+
+        while (ans.indexOf("*")>=0){
+            int idx = ans.indexOf("*");
+            ans.deleteCharAt(idx);
+            ans.deleteCharAt(ans.indexOf(String.valueOf(sufmin[idx])));
+
+        }
+        return String.valueOf(ans);
+
+    }
+    public ListNode addTwo12Numbers(ListNode l1, ListNode l2) {
+        int sumfix = 0;
+        ListNode ans = new ListNode();
+        ListNode dummy = new ListNode(0,ans);
+        while (l1 != null || l2 != null){
+            int a = l1!=null ? l1.val : 0;
+            int b = l2 != null ? l2.val : 0;
+            int sum = (a + b + sumfix)%10;
+            sumfix = (a + b + sumfix)/10;
+            ans.next = new ListNode(sum);
+            ans = ans.next;
+            if(l1 != null)l1 = l1.next;
+            if(l2 != null)l2 = l2.next;
+        }
+        if(sumfix != 0)ans.next = new ListNode(sumfix);
+        return dummy.next;
+
+    }
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        while (list1!=null || list2!=null){
+            int a = list1!=null ? list1.val : Integer.MAX_VALUE;
+            int b = list2!=null ? list2.val : Integer.MAX_VALUE;
+            if(a > b){
+                cur.next = new ListNode(b);
+                list2 = list2.next;
+            }else {
+                cur.next = new ListNode(a);
+                list1 = list1.next;
+            }
+        }
+        return dummy.next;
+    }
+    public ListNode detect12Cycle(ListNode head) {
+        ListNode f= head;
+        ListNode s= head;
+
+        while (f!=null && f.next!=null){
+            f = f.next.next;
+            s = s.next;
+            if(f == s)break;
+        }
+        if(f==null || f.next==null)return null;
+        s = head;
+        while (s == f){
+            s=s.next;
+            f=f.next;
+        }
+        return s;
+    }
+    public boolean hasCycle(ListNode head) {
+        ListNode f = head;
+        ListNode s = head;
+        while (f.next!=null && s!=null){
+            f=f.next.next;
+            s = s.next;
+            if(f==s){
+                return true;
+            }
+        }
+        return false;
+
+
+
+    }
+    public ListNode getInter12sectionNode(ListNode headA, ListNode headB) {
+        while (headA != null){
+            ListNode cur = headB;
+            while (cur != null){
+                if(headA == cur)return headA;
+                cur = cur.next;
+            }
+            headA = headA.next;
+        }
+        return null;
+    }
+    public boolean isPalindrome(ListNode head) {
+        ListNode cur = head;
+        int length = 0;
+        while (cur!=null){length++; cur = cur.next;}
+        List<Integer> list = new ArrayList<>();
+        cur = head;
+        boolean tack = length % 2 != 0;
+        for(int i = 0 ; i < length ; i++){
+            if(i < length/2){list.add(cur.val);}else{
+                if(!tack){
+                    if(list.removeLast() != cur.val)return false;
+                }
+                tack = false;
+            }
+            cur = cur.next;
+        }
+        return true;
+    }
+    public ListNode removeNt12hFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0,head);
+        ListNode f = dummy;
+        for(int i = 0 ; i < n ; i++){
+            f = f.next;
+        }
+        ListNode s = dummy;
+        while (f != null){
+            s = s.next;
+            f = f.next;
+        }
+        s.next = s.next!=null ?  s.next.next : null;
+        return head;
+    }
+    public Node copyRandomList(Node head) {
+        Node cur = head;
+        HashSet<Node> set = new HashSet<>();
+        HashMap<Node,Node> map = new HashMap<>();
+
+        Node dummy = new Node(0);
+        Node ans = dummy;
+        while (cur!=null){
+            ans.next = new Node(cur.val);
+            ans = ans.next;
+            map.put(cur,ans);
+            cur = cur.next;
+
+        }
+        cur = head;
+        ans = dummy.next;
+        while (cur!=null){
+            ans.random = map.get(cur.random);
+            ans = ans.next;
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+    public int lengthOf12LongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+        int ans = 0;
+        int l = 0;
+        for(int i = 0 ; i < s.length() ; i++){
+            while (set.contains(s.charAt(i))){
+                set.remove(s.charAt(l++));
+            }
+            set.add(s.charAt(i));
+            ans = Math.max(ans,i-l+1);
+        }
+        return ans;
+    }
+    public List<List<Integer>> three1Sum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length ; i++){
+            int n = nums[i];
+            int l = i+1;
+            int r = nums.length-1;
+            if(i>0 && nums[i]==nums[i--])continue;
+            while (l < r){
+                int ln = nums[l];
+                int lr = nums[r];
+                if(ln + lr + n < 0){
+                    r--;
+                }else if(ln + lr + n > 0){
+                    l++;
+                }else if(ln + lr + n == 0){
+                    List<Integer> list = new ArrayList<>();
+                    list.add(ln);
+                    list.add(lr);
+                    list.add(n);
+                    ans.add(list);
+                    while (nums[l] == nums[l+1])l++;
+                    while (nums[r] == nums[r-1])r--;
+                }
+            }
+        }
+        return ans;
+    }
+    public List<List<Integer>> level1Order(TreeNode root) {
+        if(root==null)return null;
+        List<List<Integer>> ans = new ArrayList<>();
+        List<TreeNode> list = new ArrayList<>();
+        list.add(root);
+        ans.add(new ArrayList<>() {{add(root.val);}
+        });
+        while (!list.isEmpty()){
+            List<TreeNode> list_cur = new ArrayList<>();
+            List<Integer> list_int = new ArrayList<>();
+            for(TreeNode cur : list){
+                if(cur.left!=null)list_cur.add(cur.left);
+                if(cur.right!=null)list_cur.add(cur.right);
+            }
+            for(TreeNode cur : list_cur){
+                list_int.add(cur.val);
+            }
+            ans.add(new ArrayList<>(list_int));
+            list = list_cur;
+        }
+        return ans;
+    }
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode A = headA;
+        ListNode B = headB;
+        while (A != null){
+            while (B != null){
+                if(A == B)return A;
+                B = B.next;
+            }
+            A = A.next;
+        }
+        return null;
+    }
+    public ListNode rever12seList(ListNode head) {
+        ListNode pre = null;
+        while (head != null){
+            ListNode temp = head.next;
+            head.next = pre;
+            pre = head;
+            head = temp;
+        }
+        return pre;
+
+    }
+    public boolean isPalin12drome(ListNode head) {
+        ListNode cur = head;
+        List<Integer> list = new ArrayList<>();
+        while (cur != null){
+            list.add(cur.val);
+            cur = cur.next;
+        }
+        int r = list.size()-1;
+        int l = 0;
+        while (l < r){
+            if(list.get(l) != list.get(r))return false;
+            l++;
+            r--;
+        }
+
+        return true;
+
+
+    }
+    public boolean has12Cycle(ListNode head) {
+        ListNode s = head;
+        ListNode f = head;
+        while (f!=null && f.next !=null){
+
+            f = f.next.next;
+            s = s.next;
+            if(f==s)return true;
+        }
+        return false;
+    }
+    public ListNode detect121Cycle(ListNode head) {
+        ListNode s = head;
+        ListNode f = head;
+        ListNode ans = null;
+        while (f!=null && f.next !=null){
+
+            f = f.next.next;
+            s = s.next;
+            if(f==s){ans = f;break;}
+        }
+        if(ans == null)return ans;
+        s=head;
+        while (s==ans){
+            s = s.next;
+            ans =ans.next;
+        }
+        return s;
+
+
+
+
+    }
+    public ListNode sort121List(ListNode head) {
+        ListNode cur = head;
+        int length = 0;
+        while (cur != null){
+            length++;
+            cur = cur.next;
+        }
+        int[] nums = new  int[length];
+        cur = head;
+        int i = 0;
+        while (cur != null){nums[i++] = cur.val;cur = cur.next;}
+        Arrays.sort(nums);
+        cur = head;
+        i = 0;
+        while (cur!=null){
+            cur.val = nums[i++];
+            cur = cur.next;
+        }
+        return head;
+    }
+    public ListNode sw1apPairs(ListNode head) {
+        if(head==null ||head.next==null)return head;
+        ListNode dummy = new ListNode(0,head);
+        ListNode pre = dummy;
+        ListNode s = head;
+        ListNode f = head.next;
+        while (f!=null && f.next!=null){
+            ListNode a = f.next.next;
+            ListNode b = f.next;
+
+            s.next = f.next;
+            f.next = s;
+
+            pre.next = f;
+
+            pre = f;
+            f = a;
+            s = b;
+
+        }
+        return dummy.next;
+
+
+    }
+    public ListNode remove12NthFromEnd(ListNode head, int n) {
+        ListNode cur = head;
+        for(int i = 0 ; i < n-1 ; i++){
+            cur = cur.next;
+        }
+        ListNode s = new ListNode(0,head);;
+        while (cur!=null){
+            s = s.next;
+            cur = cur.next;
+        }
+        s.next = s.next!=null ? s.next.next : null;
+        return head;
+    }
+    public ListNode addT13woNumbers(ListNode l1, ListNode l2) {
+        int fix = 0;
+        ListNode dummy = new ListNode(0);
+        ListNode ans = dummy;
+        while (l1 !=null || l2 != null){
+            int a = l1!=null ? l1.val : 0;
+            int b = l2!=null ? l2.val : 0;
+            ans.next = new ListNode((a + b +fix)%10);
+            fix = (a + b +fix) /10;
+
+            ans = ans.next;
+            l1 = l1 != null ? l1.next : null;
+            l2 = l2 != null ? l2.next : null;
+        }
+        if(fix!=0)ans.next = new ListNode(fix);
+        return dummy.next;
+    }
+
+    public ListNode mergeTwo3Lists(ListNode list1, ListNode list2) {
+
+
+
+    }
 
 }
