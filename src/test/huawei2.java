@@ -5,7 +5,7 @@ public class huawei2 {
 
 
 
-    public class Main {
+    public static class Main {
         static class Task {
             int id;
             int priority;
@@ -22,7 +22,6 @@ public class huawei2 {
 
         public static void main(String[] args) {
             Scanner scanner = new Scanner(System.in);
-
             // 使用优先队列，按优先级排序（值越小优先级越高）
             // 优先级相同时按添加顺序排序
             PriorityQueue<Task> taskQueue = new PriorityQueue<>(

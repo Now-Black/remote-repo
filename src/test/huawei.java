@@ -3,7 +3,7 @@ import java.util.*;
 public class huawei {
 
 
-    public class Main {
+    public static class Main {
         public static void main(String[] args) {
             Scanner scanner = new Scanner(System.in);
 

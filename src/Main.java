@@ -7,7 +7,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        robotWithString("bac");
+        System.out.println("1");
     }
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0,head);
@@ -142,20 +142,6 @@ public class Main {
         }
 
     }
-    public List<List<Integer>> subsets(int[] nums) {
-        List<Integer> list = new ArrayList<>();
-        List<List<Integer>> ans = new ArrayList<>();
-        dfssubsets(0,nums,list,ans);
-        return ans;
-    }
-    public void dfssubsets(int i,int[] nums,List<Integer> list,List<List<Integer>> ans){
-        ans.add(new ArrayList<>(list));
-        for(int j = i ; j < nums.length ; j++){
-            list.add(nums[j]);
-            dfssubsets(i+1,nums,list,ans);
-            list.removeLast();
-        }
-    }
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
@@ -238,18 +224,6 @@ public class Main {
         }
         return ans;
     }
-    public int[][] mer12ge(int[][] intervals) {
-        Arrays.sort(intervals,(p,q)->p[0]-q[0]);
-        List<int[]> ans = new ArrayList<>();
-        for(int[] cur : intervals){
-            if(!ans.isEmpty() && ans.getLast()[1]>=cur[0]){
-                ans.getLast()[1] = Math.max(ans.getLast()[1],cur[1]);
-            }else {
-                ans.add(cur);
-            }
-        }
-        return ans.toArray(new int[ans.size()][]);
-    }
     public boolean canJump(int[] nums) {
         int reach = 0;
         for(int i = 0; i < nums.length;i++){
@@ -300,21 +274,6 @@ public class Main {
             }
         }
         return null;
-    }
-    public List<List<String>> group12Anagrams(String[] strs) {
-        Map<String, List<String>> map = new HashMap<>();
-        for (String cur : strs) {
-            char[] no = cur.toCharArray();
-            Arrays.sort(no);
-            if (map.containsKey(new String(no))) {
-                map.get(new String(no)).add(cur);
-            } else {
-                map.put(new String(no), new ArrayList<>() {{
-                    add(cur);
-                }});
-            }
-        }
-        return new ArrayList<>(map.values());
     }
     public int longestCo1nsecutive(int[] nums) {
         Set<Integer> set = new HashSet<>();
@@ -505,36 +464,6 @@ public class Main {
             now[s.charAt(i-p.length()+1-'a')]--;
         }
         return ans;
-    }
-    public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Arrays.sort(nums);
-        for(int i = 0; i<nums.length;i++){
-            int r=nums.length-1;
-            int l =i+1;
-            if(i>0 && nums[i]==nums[i-1])continue;
-            while (l<r){
-                if(nums[i]+nums[r]+nums[l]<0){
-                    l++;
-                }
-                else if(nums[i]+nums[r]+nums[l]>0){
-                    r--;
-                }
-                else if(nums[i]+nums[r]+nums[l]==0){
-                    int now = nums[i];
-                    int ri = nums[r];
-                    int le = nums[l];
-                    ans.add(new ArrayList<>(){{add(now);add(ri);add(le);}});
-                    r--;
-                    l++;
-                    while (nums[r]==nums[r--])r--;
-                    while (nums[l]==nums[l++])l++;
-                }
-            }
-        }
-        return ans;
-
-
     }
     public int subarraySum(int[] nums, int k) {
         int[] pix = new int[nums.length+1];
@@ -748,22 +677,6 @@ public class Main {
         }
         return idx_min;
     }
-    public static String robotWithString(String s) {
-        char[] sufmin = new char[s.length()+1];
-        sufmin[s.length()] = Character.MAX_VALUE;
-        for(int i = s.length()-1 ; i >=0 ;i--){
-            sufmin[i] = (char) Math.min(s.charAt(i),sufmin[i+1]);
-        }
-        List<Character> list = new ArrayList<>();
-        StringBuilder ans = new StringBuilder();
-        for(int i = 0 ; i < s.length();i++){
-            list.add(s.charAt(i));
-            while (!list.isEmpty() && list.getLast() <= sufmin[i]){
-                ans.append(list.removeLast());
-            }
-        }
-        return String.valueOf(ans);
-    }
     public ListNode swap12Pairs(ListNode head) {
         ListNode dummy = new ListNode(0,head);
         if(head==null || head.next==null)return head;
@@ -921,24 +834,6 @@ public class Main {
         }
         return null;
     }
-    public boolean isPalindrome(ListNode head) {
-        ListNode cur = head;
-        int length = 0;
-        while (cur!=null){length++; cur = cur.next;}
-        List<Integer> list = new ArrayList<>();
-        cur = head;
-        boolean tack = length % 2 != 0;
-        for(int i = 0 ; i < length ; i++){
-            if(i < length/2){list.add(cur.val);}else{
-                if(!tack){
-                    if(list.removeLast() != cur.val)return false;
-                }
-                tack = false;
-            }
-            cur = cur.next;
-        }
-        return true;
-    }
     public ListNode removeNt12hFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0,head);
         ListNode f = dummy;
@@ -1017,28 +912,6 @@ public class Main {
         }
         return ans;
     }
-    public List<List<Integer>> level1Order(TreeNode root) {
-        if(root==null)return null;
-        List<List<Integer>> ans = new ArrayList<>();
-        List<TreeNode> list = new ArrayList<>();
-        list.add(root);
-        ans.add(new ArrayList<>() {{add(root.val);}
-        });
-        while (!list.isEmpty()){
-            List<TreeNode> list_cur = new ArrayList<>();
-            List<Integer> list_int = new ArrayList<>();
-            for(TreeNode cur : list){
-                if(cur.left!=null)list_cur.add(cur.left);
-                if(cur.right!=null)list_cur.add(cur.right);
-            }
-            for(TreeNode cur : list_cur){
-                list_int.add(cur.val);
-            }
-            ans.add(new ArrayList<>(list_int));
-            list = list_cur;
-        }
-        return ans;
-    }
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode A = headA;
         ListNode B = headB;
@@ -1072,7 +945,7 @@ public class Main {
         int r = list.size()-1;
         int l = 0;
         while (l < r){
-            if(list.get(l) != list.get(r))return false;
+            if(!list.get(l).equals(list.get(r)))return false;
             l++;
             r--;
         }
@@ -1188,9 +1061,191 @@ public class Main {
         if(fix!=0)ans.next = new ListNode(fix);
         return dummy.next;
     }
-
     public ListNode mergeTwo3Lists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        while (list1!=null || list2!=null){
+            int a = list1!=null ? list1.val : Integer.MAX_VALUE;
+            int b = list2!=null ? list2.val : Integer.MAX_VALUE;
+            if(a < b){
+                cur.next = new ListNode(a);
+                list1 = list1.next;
+            }else {
+                cur.next = new ListNode(b);
+                list2 = list2.next;
+            }
+            cur = cur.next;
+        }
+        return dummy.next;
 
+
+    }
+    public Node co1pyRandomList(Node head) {
+        Node cur = head;
+        Node dummy = new Node(0);
+        Node ans = dummy;
+        Map<Node,Node> map = new HashMap<>();
+        while (cur!=null){
+            map.put(cur,new Node(cur.val));
+            cur = cur.next;
+        }
+        cur = head;
+        while (cur!=null){
+            ans.next = map.get(cur.next);
+            ans.random = map.get(cur.random);
+            cur = cur.next;
+            ans =ans.next;
+        }
+        return dummy.next;
+
+
+    }
+    public int maximumDifference(int[] nums) {
+        int ans = -1;
+        for(int i = 0; i < nums.length;i++){
+            for(int j = i+1 ; j < nums.length ; j++){
+                if(nums[j] < nums[i])continue;
+                ans = Math.max(nums[j]-nums[i],ans);
+            }
+        }
+        return ans;
+
+    }
+    public String longestCommonPrefix(String[] strs) {
+        String tar = strs[0];
+        for(int i = 1 ; i < strs.length;i++){
+            int start = 0;
+            StringBuilder ans = new StringBuilder();
+            while(start<Math.min(tar.length(),strs[i].length()) &&  tar.charAt(start) == strs[i].charAt(start)){
+                ans.append(tar.charAt(start));
+                start++;
+            }
+            tar = String.valueOf(ans);
+        }
+        return tar;
+
+    }
+    public int[] two123Sum(int[] nums, int target) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i = 0 ; i < nums.length ; i++){
+            if (map.containsKey(target - nums[i])){
+                return new int[]{i,map.get(target-nums[i])};
+            }else {
+                map.put(nums[i],i);
+            }
+        }
+        return null;
+    }
+    public List<List<String>> groupAn12agrams(String[] strs) {
+        Map<int[],List<String> >map = new HashMap<>();
+        for(String str : strs){
+            int[] nums = new int[26];
+            for(char cur : str.toCharArray()){
+                nums[cur-'a'] ++;
+            }
+            if(! map.containsKey(nums)){
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                map.put(Arrays.copyOf(nums,26),list);
+            }else {
+                map.get(nums).add(str);
+            }
+        }
+        return new ArrayList<>(map.values());
+    }
+    public int lon123gestConsecutive(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int ans = 0;
+        for(int num : nums){
+            set.add(num);
+        }
+        for(int num : set){
+            if(set.contains(num-1)){
+                continue;
+            }
+            int length = 0;
+            while (set.contains(num)){
+                num++;
+                length++;
+            }
+            ans = Math.max(length,ans);
+        }
+        return ans;
+    }
+    public void m2oveZeroes(int[] nums) {
+        int s = 0;
+        int f = 0;
+        while ( f <= nums.length){
+            if(nums[s] != 0){
+                s++;
+            }else {
+                if(nums[f]!=0){
+                    nums[s] = nums[f];
+                    nums[f] = 0;
+                }
+            }
+            f++;
+        }
+    }
+    public void zero(int[] nums){
+        int z = 0;
+        for(int i = 0 ; i < nums.length; i++){
+            if(nums[i] != 0){
+                int temp = nums[i];
+                nums[i] = nums[z];
+                nums[z] = temp;
+                z++;
+            }
+        }
+    }
+    public int m2axArea(int[] height) {
+        int l = 0;
+        int r = height.length-1;
+        int ans = 0;
+        while (l < r){
+            int temp = 0;
+            if(height[l] < height[r]){
+                temp = (r-l) * height[l];
+                l++;
+            }else {
+                temp = (r-l) * height[r];
+                r--;
+            }
+            ans = Math.max(ans,temp);
+        }
+        return ans;
+    }
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length ; i++){
+            int l = i + 1;
+            int r = nums.length-1;
+            if(i>0 && nums[i]==nums[i-1])continue;
+            while (l < r){
+                if(nums[i] + nums[r] + nums[l] < 0 ){
+                    l++;
+                }else if(nums[i] + nums[r] + nums[l] > 0 ){
+                    r--;
+                }else {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(i);
+                    list.add(l);
+                    list.add(r);
+                    ans.add(list);
+                    while(nums[l]==nums[l+1])l++;
+                    while (nums[r] == nums[r-1])r--;
+                }
+
+            }
+        }
+        return ans;
+    }
+    public int lengthOfLongestSubstring(String s) {
+
+
+    }
+    public List<Integer> findAnagrams(String s, String p) {
 
 
     }
