@@ -2,6 +2,7 @@ import com.sun.security.auth.UnixNumericUserPrincipal;
 
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 public class Main {
@@ -1241,13 +1242,77 @@ public class Main {
         }
         return ans;
     }
-    public int lengthOfLongestSubstring(String s) {
+    public int l2engthOfLongestSubstring(String s) {
 
+        Set<Character> set = new HashSet<>();
+        int l = 0;
+        int ans = -1;
+        for(int i = 0 ;  i < s.length();i++){
+            if(!set.contains(s.charAt(i))){
+                set.add(s.charAt(i));
+            }else {
+                ans = Math.max(ans,i-l-1);
+                while (set.contains(s.charAt(i))){
+                    set.remove(s.charAt(l));
+                    l++;
+                }
+            }
+        }
+        return ans==-1?s.length():ans;
+    }
+    public List<Integer> f3indAnagrams(String s, String p) {
+        List<Integer> ans =new ArrayList<>();
+        int length = p.length();
+        char[] pc = p.toCharArray();
+        Arrays.sort(pc);
+        p = new String(pc) ;
+        for(int i = 0; i < s.length()-length;i++){
+            char[] temp = s.substring(i,i+length).toCharArray();
+            Arrays.sort(temp);
+            if(p.equals(new String(temp))){
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int i = 0;
+        int j = row-1;
+        while (i<col && j>-1){
+            if(matrix[i][j] > target){
+                j--;
+            }else if(matrix[i][j] < target){
+                i++;
+            }else return true;
+
+        }
+        return false;
+    }
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return Path_Search(preorder,inorder);
+    }
+    private TreeNode Path_Search(int[] preorder, int[] inorder){
+        Queue<int[]> que = new LinkedList<>();
+        que.add(new int[]{i,j});
+        que.remove()
+        if(preorder.length == 0)return null;
+
+        TreeNode root = new TreeNode(preorder[0]);
+        int i = 0  ;
+        for(;i < inorder.length;i++){
+            if(inorder[i]==preorder[0]);break;
+        }
+        int[] preorder_left = Arrays.copyOfRange(preorder,1,i);
+        int[] inorder_left = Arrays.copyOfRange(inorder,1,preorder_left.length+1);
+        int[] preorder_right = Arrays.copyOfRange(preorder,i+1,preorder.length);
+        int[] inorder_right = Arrays.copyOfRange(inorder,preorder_left.length+2,preorder.length);
+        root.left = Path_Search(preorder_left,inorder_left);
+        root.right = Path_Search(preorder_right,inorder_right);
+        return root;
 
     }
-    public List<Integer> findAnagrams(String s, String p) {
 
-
-    }
 
 }
