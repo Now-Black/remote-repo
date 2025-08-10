@@ -1294,9 +1294,6 @@ public class Main {
         return Path_Search(preorder,inorder);
     }
     private TreeNode Path_Search(int[] preorder, int[] inorder){
-        Queue<int[]> que = new LinkedList<>();
-        que.add(new int[]{i,j});
-        que.remove()
         if(preorder.length == 0)return null;
 
         TreeNode root = new TreeNode(preorder[0]);
