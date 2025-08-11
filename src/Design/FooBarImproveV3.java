@@ -39,7 +39,7 @@ public class FooBarImproveV3 {
 
         return CompletableFuture.allOf(fooFuture, barFuture);
     }
-11
+
     public void shutdown() {
         executor.shutdown();
     }
