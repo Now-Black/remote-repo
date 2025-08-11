@@ -6,9 +6,9 @@ import java.util.concurrent.Semaphore;
  * sempore test
  */
 class FooBar2 {
-    private int n;
-    Semaphore semaphore_foo;
-    Semaphore semaphore_bar;
+    private final int n;
+    private final Semaphore semaphore_foo;
+    private final Semaphore semaphore_bar;
     public FooBar2(int n) {
         this.n = n;
         this.semaphore_foo = new Semaphore(1);
