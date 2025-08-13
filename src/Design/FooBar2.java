@@ -2,7 +2,7 @@ package Design;
 
 import java.util.concurrent.Semaphore;
 
-/**
+/*
  * sempore test
  */
 class FooBar2 {
