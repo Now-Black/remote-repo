@@ -1,5 +1,6 @@
 package Design;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 class TweetCounts {
@@ -9,6 +10,7 @@ class TweetCounts {
     public TweetCounts() {
         map = new HashMap<>();
         treeMap = new TreeMap<>();
+
     }
 
     public void recordTweet(String tweetName, int time) {

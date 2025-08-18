@@ -1,37 +1,35 @@
 package Design;
 
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
-/*
- * sempore test
- */
-class FooBar2 {
-    private final int n;
-    private final Semaphore semaphore_foo;
-    private final Semaphore semaphore_bar;
-    public FooBar2(int n) {
+class FooBar_que {
+    private int n;
+    private BlockingQueue<Integer> foo = new ArrayBlockingQueue<>(1);
+    private BlockingQueue<Integer> bar = new ArrayBlockingQueue<>(1);
+    public FooBar_que(int n) {
         this.n = n;
-        this.semaphore_foo = new Semaphore(1);
-        this.semaphore_bar = new Semaphore(0);
     }
 
     public void foo(Runnable printFoo) throws InterruptedException {
 
         for (int i = 0; i < n; i++) {
-            semaphore_foo.acquire();
+            foo.put(i);
             // printFoo.run() outputs "foo". Do not change or remove this line.
             printFoo.run();
-            semaphore_bar.release();
+            bar.put(i);
         }
     }
 
     public void bar(Runnable printBar) throws InterruptedException {
 
         for (int i = 0; i < n; i++) {
-            semaphore_bar.acquire();
+            foo.take();
             // printBar.run() outputs "bar". Do not change or remove this line.
             printBar.run();
-            semaphore_foo.release();
+            bar.take();
         }
     }
 }
