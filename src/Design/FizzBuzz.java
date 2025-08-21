@@ -1,10 +1,12 @@
 package Design;
 
+import java.math.BigDecimal;
 import java.util.concurrent.Semaphore;
 import java.util.function.IntConsumer;
 
 class FizzBuzz {
     private int n;
+
     private volatile int idx = 0;
     Semaphore fizz = new Semaphore(0);
     Semaphore buzz = new Semaphore(0);
