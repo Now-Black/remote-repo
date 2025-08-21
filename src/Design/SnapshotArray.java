@@ -25,17 +25,19 @@ class SnapshotArray {
         return tar != -1 ? list.get(tar)[1] : 0;
     }
     private int search(List<int[]> list, int snap_id){
+        int result = -1;
         int l = 0;
         int r = list.size();
-        while (l < r){
+        while (l <= r){
             int mid = (l+r)/2;
-            if(list.get(mid)[0] < snap_id){
+            if(list.get(mid)[0] <= snap_id){
+                result = mid;
                 l = mid + 1;
             }else {
                 r = mid -1;
             }
         }
-        return l+1;
+        return  result;
     }
 }
 
