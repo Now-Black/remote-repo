@@ -1,4 +1,5 @@
 package Design;
+import com.sun.jmx.remote.internal.ArrayQueue;
 import sun.misc.ConditionLock;
 
 import java.lang.reflect.Array;
@@ -33,7 +34,7 @@ public class Main {
 
         ReentrantLock lock = new ReentrantLock();
         Semaphore semaphore = new Semaphore(1);
-        Arrays.copyOfRange()
+
         priorityQueue.poll();
         System.out.println((int)Math.sqrt(12));
     }
