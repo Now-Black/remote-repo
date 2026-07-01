@@ -36,7 +36,7 @@ public class Main {
         String ssss;
         ArrayDeque<Integer> deque = new ArrayDeque<>();
 
-
+/*这是一次测试*/
         List<Integer> list1 = new ArrayList<>();
 //        int a =  list1.get(1);
         LinkedList<Integer> linkedList = new LinkedList<>();
