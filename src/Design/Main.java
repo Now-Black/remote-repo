@@ -6,6 +6,8 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,6 +17,7 @@ public class Main {
 
 
     }
+
     public static void main(String[] args) {
         Main main = new Main();
         List<? super Integer> list = new ArrayList<>();
@@ -31,6 +34,14 @@ public class Main {
         StringBuilder str = new StringBuilder();
         str = s;
         String ssss;
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+
+        List<Integer> list1 = new ArrayList<>();
+        list1.get(1);
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.remove();
+        linkedList.get(1);
 
         ReentrantLock lock = new ReentrantLock();
         Semaphore semaphore = new Semaphore(1);
@@ -54,6 +65,11 @@ public class Main {
             }
         }
         return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+    public int test_mz(int target , int[] nums){
+        int temp = nums.length;
+
+        return target+nums[temp];
     }
 
 
