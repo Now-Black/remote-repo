@@ -38,10 +38,10 @@ public class Main {
 
 
         List<Integer> list1 = new ArrayList<>();
-        list1.get(1);
+//        int a =  list1.get(1);
         LinkedList<Integer> linkedList = new LinkedList<>();
-        linkedList.remove();
-        linkedList.get(1);
+//        linkedList.remove();
+//        linkedList.get(1);
 
         ReentrantLock lock = new ReentrantLock();
         Semaphore semaphore = new Semaphore(1);
